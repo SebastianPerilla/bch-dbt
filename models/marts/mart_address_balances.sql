@@ -3,9 +3,6 @@
 ) }}
 
 with historical_transactions as (
-...
-
-with historical_transactions as (
     -- Querying the raw public dataset directly to compute lifetime balances accurately
     select * from `bigquery-public-data.crypto_bitcoin_cash.transactions`
 ),
