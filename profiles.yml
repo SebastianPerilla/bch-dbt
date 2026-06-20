@@ -1,4 +1,4 @@
-bch_dbt:
+bch_dbt: # This matches your dbt_project.yml profile name
   target: dev
   outputs:
     dev:
@@ -6,7 +6,21 @@ bch_dbt:
       method: service-account
       keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
       project: bch-astrafy-proj-07486396
-      dataset: bch_staging
+      dataset: bch_staging # Default fallback dataset
+      threads: 4
+      timeout_seconds: 300
+      location: US
+
+# We add the secondary profile target right here in the same file!
+bch_mart_profile: 
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
+      project: bch-astrafy-proj-07486396
+      dataset: bch_mart # Direct target for your data mart table
       threads: 4
       timeout_seconds: 300
       location: US

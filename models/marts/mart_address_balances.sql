@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    schema='mart'
+    target_profile='bch_mart_profile'
 ) }}
 
 with historical_transactions as (
