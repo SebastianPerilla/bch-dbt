@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: public_bch
+    database: bigquery-public-data
+    schema: crypto_bitcoin_cash
+    tables:
+      - name: transactions

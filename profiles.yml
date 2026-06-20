@@ -1,0 +1,12 @@
+bch_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
+      project: bch-astrafy-proj-07486396
+      dataset: bch_staging
+      threads: 4
+      timeout_seconds: 300
+      location: US
