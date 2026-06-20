@@ -1,7 +1,9 @@
 {{ config(
-    materialized='table',
-    target_profile='bch_mart_profile'
+    materialized='table'
 ) }}
+
+with historical_transactions as (
+...
 
 with historical_transactions as (
     -- Querying the raw public dataset directly to compute lifetime balances accurately

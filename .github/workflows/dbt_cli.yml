@@ -34,7 +34,9 @@ jobs:
           mkdir -p ~/.dbt
           cp profiles.yml ~/.dbt/profiles.yml
 
-      - name: Run dbt Pipeline Validation
-        run: |
-          dbt debug
-          dbt run
+      # Instead of just "dbt run", explicitly route folders to their targets
+      - name: Run dbt Staging Models
+        run: dbt run --select staging --target staging
+
+      - name: Run dbt Mart Models
+        run: dbt run --select marts --target mart
