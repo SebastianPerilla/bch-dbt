@@ -1,4 +1,7 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    dataset='bch_mart'
+) }}
 
 with transactions as (
     select * from {{ ref('stg_transactions') }}
