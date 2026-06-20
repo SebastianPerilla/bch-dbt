@@ -31,11 +31,14 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 
 models:
-  bch_dbt: # This must match the name: parameter at the top of your file
+  bch_dbt:
+    # This sets the default configuration for the whole project
     +materialized: view
+    
+    # Staging models will inherit the default view materialization
     staging:
       +materialized: view
-      +schema: staging
+      
+    # Mart models will build as physical tables
     marts:
       +materialized: table
-      +schema: mart

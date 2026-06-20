@@ -1,17 +1,18 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table'
+) }}
 
-with transactions as (
-    select * from {{ ref('stg_transactions') }}
+with historical_transactions as (
+    -- Querying the raw public dataset directly to compute lifetime balances accurately
+    select * from `bigquery-public-data.crypto_bitcoin_cash.transactions`
 ),
 
 -- 1. Unnest outputs to find what every address received
 received_amounts as (
     select
-        tx.tx_hash,
-        tx.block_timestamp,
         output.addresses as address_array,
         output.value as value
-    from transactions tx,
+    from historical_transactions tx,
     unnest(outputs) as output
 ),
 
@@ -27,10 +28,9 @@ flattened_received as (
 -- 2. Unnest inputs to find what every address spent
 spent_amounts as (
     select
-        tx.tx_hash,
         input.addresses as address_array,
         input.value as value
-    from transactions tx,
+    from historical_transactions tx,
     unnest(inputs) as input
 ),
 
@@ -46,14 +46,13 @@ flattened_spent as (
 -- 3. Identify and isolate Coinbase addresses to exclude them
 coinbase_exclusion as (
     select distinct addr as address
-    from transactions tx,
+    from historical_transactions tx,
     unnest(inputs) as input,
     unnest(input.addresses) as addr
-    -- Coinbase transactions usually have empty input UTXOs or distinct structural tags
-    where input.type = 'coinbase' or tx.inputs is null
+    where input.type = 'coinbase'
 )
 
--- 4. Combine metrics to calculate current balance
+-- 4. Combine metrics to calculate true current balance
 select
     coalesce(r.address, s.address) as crypto_address,
     coalesce(r.total_received, 0) as total_received,
