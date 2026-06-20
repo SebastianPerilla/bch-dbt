@@ -1,0 +1,14 @@
+bch_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+
+      # This points directly to the temporary key file created by the GCP Auth Action
+      keyfile: ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}
+      project: bch-astrafy-proj-07486396
+      dataset: bch_staging
+      threads: 4
+      timeout_seconds: 300
+      location: US

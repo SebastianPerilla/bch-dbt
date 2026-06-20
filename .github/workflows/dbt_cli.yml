@@ -1,0 +1,40 @@
+name: dbt Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  dbt_run_ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Install dependencies
+        run: |
+          pip install uv
+          uv pip install --system dbt-bigquery
+
+      - name: Setup dbt Profiles Directory
+        run: |
+          mkdir -p ~/.dbt
+          cp profiles.yml ~/.dbt/profiles.yml
+
+      - name: Run dbt Pipeline Validation
+        run: |
+          dbt debug
+          dbt run
