@@ -174,7 +174,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
 ### 3. Install dbt dependencies
 
 ```bash
-uv pip install --system dbt-bigquery
+uv add -r requirements.txt
 ```
 
 ### 4. Run the models
