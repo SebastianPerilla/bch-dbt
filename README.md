@@ -1,6 +1,6 @@
 # Bitcoin Cash Analytics Pipeline
 
-End-to-end analytics solution Take-home challenge using Google Cloud, Terraform, dbt-core, and GitHub Actions.
+End-to-end analytics solution take-home challenge using Google Cloud, Terraform, dbt-core, and GitHub Actions.
 
 ## Overview
 
