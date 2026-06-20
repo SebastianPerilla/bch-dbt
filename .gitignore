@@ -1,6 +1,8 @@
+./venv
+venv/
+venv
 
 target/
 dbt_packages/
 logs/
-dbt-owner-key.json
 dbt-owner-key.json

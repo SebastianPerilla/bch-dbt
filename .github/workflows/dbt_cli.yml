@@ -34,7 +34,7 @@ jobs:
           mkdir -p ~/.dbt
           cp profiles.yml ~/.dbt/profiles.yml
 
-      # Instead of just "dbt run", explicitly route folders to their targets
+      # Here we route folders to their specific targets
       - name: Run dbt Staging Models
         run: dbt run --select staging --target staging
 
